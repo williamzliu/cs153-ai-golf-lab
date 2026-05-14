@@ -26,6 +26,7 @@ export default function ChatInterface({ profile, onEditProfile }: ChatInterfaceP
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isStreaming, setIsStreaming] = useState(false);
   const [openSources, setOpenSources] = useState<Set<number>>(new Set());
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -47,13 +48,14 @@ export default function ChatInterface({ profile, onEditProfile }: ChatInterfaceP
 
   async function sendMessage() {
     const text = input.trim();
-    if (!text || loading) return;
+    if (!text || loading || isStreaming) return;
 
     const userMessage: Message = { role: "user", content: text };
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
     setInput("");
     setLoading(true);
+    setIsStreaming(true);
 
     try {
       const history = messages.map((m) => ({ role: m.role, content: m.content }));
@@ -63,13 +65,72 @@ export default function ChatInterface({ profile, onEditProfile }: ChatInterfaceP
         body: JSON.stringify({ message: text, profile, history }),
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Request failed");
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error ?? "Request failed");
+      }
 
-      setMessages([
-        ...updatedMessages,
-        { role: "assistant", content: data.reply, retrieved: data.retrieved },
-      ]);
+      if (!res.body) throw new Error("No response body");
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      let assistantAdded = false;
+      let loadingCleared = false;
+
+      function ensureAssistantMessage(retrieved: RetrievedChunk[]) {
+        if (!assistantAdded) {
+          setMessages((prev) => [
+            ...prev,
+            { role: "assistant", content: "", retrieved },
+          ]);
+          assistantAdded = true;
+        }
+      }
+
+      function clearLoading() {
+        if (!loadingCleared) {
+          setLoading(false);
+          loadingCleared = true;
+        }
+      }
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
+
+        for (const line of lines) {
+          if (!line.trim()) continue;
+
+          let parsed: { type: string; retrieved?: RetrievedChunk[]; delta?: string; message?: string };
+          try {
+            parsed = JSON.parse(line);
+          } catch {
+            continue;
+          }
+
+          if (parsed.type === "sources") {
+            ensureAssistantMessage(parsed.retrieved ?? []);
+          } else if (parsed.type === "text") {
+            ensureAssistantMessage([]);
+            clearLoading();
+            setMessages((prev) => {
+              const copy = [...prev];
+              copy[copy.length - 1] = {
+                ...copy[copy.length - 1],
+                content: copy[copy.length - 1].content + (parsed.delta ?? ""),
+              };
+              return copy;
+            });
+          } else if (parsed.type === "error") {
+            throw new Error(parsed.message ?? "Stream error");
+          }
+        }
+      }
     } catch (err) {
       setMessages([
         ...updatedMessages,
@@ -80,6 +141,7 @@ export default function ChatInterface({ profile, onEditProfile }: ChatInterfaceP
       ]);
     } finally {
       setLoading(false);
+      setIsStreaming(false);
     }
   }
 
@@ -214,7 +276,7 @@ export default function ChatInterface({ profile, onEditProfile }: ChatInterfaceP
           />
           <button
             onClick={sendMessage}
-            disabled={loading || !input.trim()}
+            disabled={loading || isStreaming || !input.trim()}
             className="rounded-xl bg-green-800 px-4 py-2.5 text-sm font-semibold text-white hover:bg-green-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
           >
             Send

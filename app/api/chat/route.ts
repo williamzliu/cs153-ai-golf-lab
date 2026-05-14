@@ -18,42 +18,80 @@ interface ChatRequestBody {
 }
 
 export async function POST(req: NextRequest) {
+  let body: ChatRequestBody;
   try {
-    const body: ChatRequestBody = await req.json();
-    const { message, profile, history } = body;
-
-    if (!message?.trim()) {
-      return NextResponse.json({ error: "Message is required" }, { status: 400 });
-    }
-
-    const queryEmbedding = await embed(message);
-    const retrieved = retrieveTopK(queryEmbedding, 5);
-    const systemPrompt = buildSystemPrompt(profile, retrieved);
-
-    const messages: Anthropic.MessageParam[] = [
-      ...history.map((m) => ({
-        role: m.role as "user" | "assistant",
-        content: m.content,
-      })),
-      { role: "user", content: message },
-    ];
-
-    const response = await anthropic.messages.create({
-      model: "claude-sonnet-4-5",
-      max_tokens: 2048,
-      system: systemPrompt,
-      messages,
-    });
-
-    const reply =
-      response.content[0].type === "text" ? response.content[0].text : "";
-
-    return NextResponse.json({ reply, retrieved });
-  } catch (err) {
-    console.error("/api/chat error:", err);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
+
+  const { message, profile, history } = body;
+
+  if (!message?.trim()) {
+    return NextResponse.json({ error: "Message is required" }, { status: 400 });
+  }
+
+  let retrieved: ReturnType<typeof retrieveTopK>;
+  let systemPrompt: string;
+  try {
+    const queryEmbedding = await embed(message);
+    retrieved = retrieveTopK(queryEmbedding, 5);
+    systemPrompt = buildSystemPrompt(profile, retrieved);
+  } catch (err) {
+    console.error("/api/chat setup error:", err);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+
+  const messages: Anthropic.MessageParam[] = [
+    ...history.map((m) => ({
+      role: m.role as "user" | "assistant",
+      content: m.content,
+    })),
+    { role: "user", content: message },
+  ];
+
+  const encoder = new TextEncoder();
+
+  const stream = new ReadableStream({
+    async start(controller) {
+      try {
+        controller.enqueue(
+          encoder.encode(JSON.stringify({ type: "sources", retrieved }) + "\n")
+        );
+
+        const llmStream = anthropic.messages.stream({
+          model: "claude-sonnet-4-5",
+          max_tokens: 2048,
+          system: systemPrompt,
+          messages,
+        });
+
+        for await (const event of llmStream) {
+          if (
+            event.type === "content_block_delta" &&
+            event.delta.type === "text_delta"
+          ) {
+            controller.enqueue(
+              encoder.encode(
+                JSON.stringify({ type: "text", delta: event.delta.text }) + "\n"
+              )
+            );
+          }
+        }
+      } catch (err) {
+        console.error("/api/chat stream error:", err);
+        controller.enqueue(
+          encoder.encode(
+            JSON.stringify({ type: "error", message: "Stream error" }) + "\n"
+          )
+        );
+      } finally {
+        controller.close();
+      }
+    },
+  });
+
+  return new Response(stream, {
+    headers: { "Content-Type": "application/x-ndjson" },
+  });
 }
