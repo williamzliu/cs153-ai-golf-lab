@@ -1,0 +1,202 @@
+[
+  {
+    "id": "swing-001",
+    "topic": "swing_mechanics",
+    "skill_level": "beginner",
+    "content_type": "fundamental",
+    "text": "The foundation of any repeatable golf swing comes down to four things you control before the club moves: grip, posture, stance, and alignment. Get all four right and your body has a consistent starting point every time. Get one wrong and the swing compensates, which forces another compensation, and problems stack up shot after shot. Most inconsistency beginners experience does not start during the swing, it starts at address.",
+    "source": "Parteeof18, Golf Swing Basics"
+  },
+  {
+    "id": "swing-002",
+    "topic": "swing_mechanics",
+    "skill_level": "all",
+    "content_type": "fundamental",
+    "text": "Grip pressure should be around 4 out of 10. Most beginners squeeze the club too tight, which restricts wrist hinge and creates tension throughout the swing. The hands should feel secure but relaxed, like holding a tube of toothpaste with the cap off without squeezing any out.",
+    "source": "Golfer's Yard, 17 Drills"
+  },
+  {
+    "id": "swing-003",
+    "topic": "swing_mechanics",
+    "skill_level": "all",
+    "content_type": "explanation",
+    "text": "Golfers who generate consistent power shift weight from centered at address to slightly into the trail foot during the backswing, then decisively back to the lead foot through impact. Keeping all weight centered produces weak contact because there is no force driving through the ball. A balanced finish with the chest facing the target and weight fully on the lead foot is the clearest signal that the swing sequenced correctly.",
+    "source": "Golfer's Yard, 17 Drills"
+  },
+  {
+    "id": "swing-004",
+    "topic": "swing_mechanics",
+    "skill_level": "intermediate",
+    "content_type": "drill",
+    "text": "Feet-together drill for weight transfer: make full swings with your feet touching each other. This forces you to find balance through motion. The feeling of needing to time the weight shift to stay upright transfers directly to a normal-width stance and is one of the fastest ways to close the distance gap with better players.",
+    "source": "Golfer's Yard, 17 Drills"
+  },
+  {
+    "id": "swing-005",
+    "topic": "swing_mechanics",
+    "skill_level": "all",
+    "content_type": "fault_fix",
+    "text": "If you hit a slice, your clubface was open at impact. The wrists control the clubface, so the fix usually starts there: a slightly stronger lead-hand grip (two to three knuckles visible at address) helps square the face. For right-handed golfers, the left hand should be in charge through impact. Many players get too handsy with the right hand, which makes face control inconsistent.",
+    "source": "HackMotion, 17 Best Tips"
+  },
+  {
+    "id": "swing-006",
+    "topic": "swing_mechanics",
+    "skill_level": "all",
+    "content_type": "tip",
+    "text": "Tommy Fleetwood trajectory tip: imagine five golf balls in a line where the center one represents normal ball position. To hit it lower, position the ball one back from center; to hit it really low, two back. To hit it higher, one forward. Then make your normal swing without trying to manipulate trajectory. The ball position change alone can adjust loft by 20 to 25 feet.",
+    "source": "Golf.com, 2025 Staff Tips"
+  },
+  {
+    "id": "short-001",
+    "topic": "short_game",
+    "skill_level": "all",
+    "content_type": "fundamental",
+    "text": "Putting accounts for roughly 40% of all strokes in a typical amateur round. Chipping and pitching from around the green account for another 25 to 30%. That means the short game represents roughly 65 to 70% of your scoring opportunity, yet most amateurs spend 80% of their practice time hitting drivers on the range. Reversing that allocation to 60% short game and 40% full swing lowers scores faster than any individual swing change.",
+    "source": "Golfer's Yard"
+  },
+  {
+    "id": "short-002",
+    "topic": "short_game",
+    "skill_level": "all",
+    "content_type": "tip",
+    "text": "Putt whenever you can. Jack Nicklaus credits Arnold Palmer with this advice early in his career. If the lie allows it, the Texas wedge (putter from off the green) produces more predictable outcomes than any chip because the worst putt is usually better than the worst chip. Reserve chipping for situations where putting is genuinely not an option.",
+    "source": "GolfPass, Chipping Tips"
+  },
+  {
+    "id": "short-003",
+    "topic": "short_game",
+    "skill_level": "all",
+    "content_type": "drill",
+    "text": "Par 18 chipping drill: pick nine locations around the practice green. Each location is a par 2, the goal is to complete the nine holes in 18 total shots (chip plus putt). This is a favorite drill of Tour professionals because it forces realistic up-and-down practice rather than mindless chipping from one spot. Track your score over time as a measurable progress metric.",
+    "source": "18Birdies"
+  },
+  {
+    "id": "short-004",
+    "topic": "short_game",
+    "skill_level": "intermediate",
+    "content_type": "technique",
+    "text": "Rory McIlroy's standard chip: take a lower-lofted wedge (52 degrees rather than 60), keep the ball slightly back in your stance, get a little closer to the ball, and lean the shaft slightly forward with pressure on the lead side. Rock the shoulders back and through with minimal wrist break, treating it almost like an elongated putting stroke. Pick a landing spot on the green and let the ball release.",
+    "source": "Golf365, McIlroy Tips"
+  },
+  {
+    "id": "short-005",
+    "topic": "short_game",
+    "skill_level": "all",
+    "content_type": "fault_fix",
+    "text": "The most common chipping faults are: too much wrist movement, deceleration through impact, and using one club for every short shot regardless of situation. The fix for the wristy chip is the penny drill: place a penny where the ball would be and try to move the penny forward with a small chipping motion. If the club is moving up through impact (a flip), the penny will not move. Hitting down and through sends the penny forward.",
+    "source": "HackMotion Short Game"
+  },
+  {
+    "id": "putt-001",
+    "topic": "putting",
+    "skill_level": "all",
+    "content_type": "fundamental",
+    "text": "Distance control matters more than line on putts longer than 15 feet. Even a scratch golfer is only about 50/50 to make a five-foot putt, so the goal on long putts is to leave the next one well inside that range. The biggest source of three-putts is poor speed, not poor reads. Practice lagging to a one-club-length circle around the hole rather than trying to make every long putt.",
+    "source": "MyGolfSpy Short Game"
+  },
+  {
+    "id": "putt-002",
+    "topic": "putting",
+    "skill_level": "all",
+    "content_type": "drill",
+    "text": "Gate drill for putting stroke: place two tees on the ground just outside the heel and toe of your putter at address, with only a few millimeters of clearance on each side. Place two more tees three feet ahead as a target gate. Make putts that pass cleanly through both gates without clipping the tees. Five in a row before widening the gates. This grooves a square, on-line stroke under mild pressure.",
+    "source": "HackMotion"
+  },
+  {
+    "id": "putt-003",
+    "topic": "putting",
+    "skill_level": "all",
+    "content_type": "tip",
+    "text": "On average, your scores will be lower if you leave a 20-foot birdie putt one foot short than if you blast it six feet past trying to give it a chance. You should make nearly all one-footers, but on the PGA Tour pros only make 50% from eight feet. Lag putting saves both strokes and mental energy. Tapping in for par lets you start thinking about the next hole instead of sweating a six-footer.",
+    "source": "Medium, Chris Parsons"
+  },
+  {
+    "id": "course-001",
+    "topic": "course_management",
+    "skill_level": "all",
+    "content_type": "principle",
+    "text": "Take one more club than you think you need on approach shots. Most recreational golfers leave approach shots short far more often than they fly them long. You rarely hit it pure, most hazards sit short of greens, uphill chips from behind are easier than downhill chips from short, and pins are often tucked so the middle of the green is past the pin anyway. This single adjustment saves two to three strokes per round.",
+    "source": "Chiputt Golf, Course Management 101"
+  },
+  {
+    "id": "course-002",
+    "topic": "course_management",
+    "skill_level": "all",
+    "content_type": "principle",
+    "text": "Aim for the center of the green on approach shots, not at the flag. Identify your miss zone (the area where a slightly mishit shot still leaves a reasonable next shot) and target that. You will make more pars hitting 30-foot putts than by short-siding yourself in bunkers. This is the highest-leverage course management decision an amateur can make.",
+    "source": "Chiputt Golf"
+  },
+  {
+    "id": "course-003",
+    "topic": "course_management",
+    "skill_level": "all",
+    "content_type": "principle",
+    "text": "On any tee shot where trouble lurks (water, OB, thick rough, trees), hit the club you can keep in play 80% of the time, even if it costs distance. On a 400-yard par 4 with water left, driver might reach 150 yards out but flirts with the hazard; a 3-wood or hybrid leaves 170 yards from the fairway. Over 20 rounds the math strongly favors the conservative play.",
+    "source": "Chiputt Golf"
+  },
+  {
+    "id": "course-004",
+    "topic": "course_management",
+    "skill_level": "all",
+    "content_type": "principle",
+    "text": "Par 3s are statistically the hardest holes at every skill level because the tee shot is the only shot you have to reach the green. Aim for the center of the green, or away from hazards, and accept that par is a great score. The 12th at Augusta is a famous example of how par 3s ruin rounds when played too aggressively.",
+    "source": "Leawood Golf"
+  },
+  {
+    "id": "course-005",
+    "topic": "course_management",
+    "skill_level": "all",
+    "content_type": "principle",
+    "text": "Pick the smart target, then swing aggressively at the conservative target. Course management does not mean playing scared or making timid swings, that often produces fat or thin contact. Choose the high-percentage line, then commit to a full, confident swing along that line. This relieves execution pressure while keeping the mindset aggressive.",
+    "source": "MyGolfSpy, Course Management 101"
+  },
+  {
+    "id": "course-006",
+    "topic": "course_management",
+    "skill_level": "intermediate",
+    "content_type": "principle",
+    "text": "Think about angles, not just distance. Before each tee shot ask: where do I want to be hitting my approach from? If the pin is tucked right, the best angle is from the left side of the fairway. If the pin is over a front bunker, aiming long into the back portion of the green gives you a putt rather than a chip. Setting up the next shot is often worth more than gaining a few yards.",
+    "source": "MyGolfSpy"
+  },
+  {
+    "id": "mental-001",
+    "topic": "mental_game",
+    "skill_level": "all",
+    "content_type": "principle",
+    "text": "Build and use a pre-shot routine on every shot. The same physical sequence every time (visualization, practice swing, address, trigger) creates what Helen Alfredsson called a cocoon, the consistency that lets you execute under pressure. A routine you only use sometimes is not a routine. Practice the routine on the range, not just the swing itself.",
+    "source": "Wicked Smart Golf"
+  },
+  {
+    "id": "mental-002",
+    "topic": "mental_game",
+    "skill_level": "all",
+    "content_type": "principle",
+    "text": "One bad swing does not demand a hero shot on the next one. The worst course management mistake is compounding errors by trying to make up for a fat chip or chunked wedge with a low-percentage recovery. Accept the mistake, play the high-percentage next shot, and protect bogey rather than chasing par.",
+    "source": "MyGolfSpy"
+  },
+  {
+    "id": "practice-001",
+    "topic": "practice_structure",
+    "skill_level": "all",
+    "content_type": "principle",
+    "text": "Practice makes permanent, not perfect. Mindlessly grooving the wrong move at the range bakes faults deeper. Every range session should have a specific intent: one swing thought, one feeling, or one drill, practiced for at least three sessions in isolation before adding a second focus. Five swings with intent beat fifty without it.",
+    "source": "Danny Maude"
+  },
+  {
+    "id": "practice-002",
+    "topic": "practice_structure",
+    "skill_level": "all",
+    "content_type": "principle",
+    "text": "Focus on process goals rather than outcomes during practice: smoother takeaway, more consistent finish, better weight transfer through impact. These are measurable and controllable session to session. Ball flight and scoring follow once fundamentals solidify, but chasing them before the foundation is built creates frustration and confused tinkering.",
+    "source": "Parteeof18"
+  },
+  {
+    "id": "rules-001",
+    "topic": "rules",
+    "skill_level": "all",
+    "content_type": "rule",
+    "text": "Under the current USGA Rules of Golf, a ball is considered lost if it has not been found within three minutes of the player or caddie beginning to search for it. Previously this was five minutes. If you suspect your ball may be lost or out of bounds off the tee, hit a provisional ball before walking forward to save time and avoid the penalty of stroke and distance with no provisional available.",
+    "source": "USGA Rules"
+  }
+]

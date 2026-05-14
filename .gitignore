@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# embeddings (generated artifact, not source)
+data/embeddings.json
