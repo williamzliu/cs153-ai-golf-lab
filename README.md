@@ -1,5 +1,7 @@
 # AI Golf Lab
 
+**Live demo:** https://cs153-ai-golf-lab.vercel.app/
+
 AI Golf Lab is a RAG-powered personal golf coaching application built as a CS 153 class project. It combines retrieval-augmented generation with a curated instructional corpus to deliver personalized, context-aware coaching advice. Users enter their handicap, typical miss, and current goal; the app embeds their question with Voyage AI, retrieves the most relevant chunks from a local knowledge base, and passes them to Claude to generate coaching responses grounded in real instructional content rather than generic golf knowledge.
 
 ## Tech Stack
