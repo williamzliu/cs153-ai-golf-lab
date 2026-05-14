@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 import { PlayerProfile } from "@/lib/prompt";
 
 interface RetrievedChunk {
@@ -199,13 +200,13 @@ export default function ChatInterface({ profile, onEditProfile }: ChatInterfaceP
           <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
             <div className={`max-w-[85%] space-y-2`}>
               <div
-                className={`rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
+                className={`rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                   msg.role === "user"
-                    ? "bg-green-800 text-white rounded-br-sm"
-                    : "bg-white border border-stone-200 text-stone-800 rounded-bl-sm shadow-sm"
+                    ? "bg-green-800 text-white rounded-br-sm whitespace-pre-wrap"
+                    : "bg-white border border-stone-200 text-stone-800 rounded-bl-sm shadow-sm prose prose-sm prose-stone max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0 prose-headings:my-2"
                 }`}
               >
-                {msg.content}
+                {msg.role === "user" ? msg.content : <ReactMarkdown>{msg.content}</ReactMarkdown>}
               </div>
 
               {msg.role === "assistant" && msg.retrieved && msg.retrieved.length > 0 && (
