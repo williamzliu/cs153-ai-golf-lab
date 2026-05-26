@@ -219,6 +219,14 @@ export default function ChatInterface({ profile, onEditProfile }: ChatInterfaceP
                     <span>
                       {msg.retrieved.length} source{msg.retrieved.length !== 1 ? "s" : ""} retrieved
                     </span>
+                    {msg.retrieved[0].score < 0.5 && (
+                      <span
+                        className="ml-1 text-amber-500"
+                        title="Best source match below 50% — answer may be less reliable"
+                      >
+                        · low confidence
+                      </span>
+                    )}
                   </button>
 
                   {openSources.has(i) && (
