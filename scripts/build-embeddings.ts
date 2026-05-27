@@ -31,7 +31,7 @@ async function main() {
 
   const texts = corpus.map((chunk) => chunk.text);
 
-  console.log("Generating embeddings via Voyage AI (voyage-3.5-lite)...");
+  console.log("Generating embeddings via Voyage AI (voyage-3-large)...");
   const embeddings = await embedDocuments(texts);
   console.log(`Generated ${embeddings.length} embeddings.`);
 

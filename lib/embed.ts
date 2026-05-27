@@ -19,7 +19,7 @@ async function callVoyage(
     },
     body: JSON.stringify({
       input,
-      model: "voyage-3.5-lite",
+      model: "voyage-3-large",
       input_type: inputType,
     }),
   });
