@@ -23,17 +23,31 @@ interface ChatInterfaceProps {
   onEditProfile: () => void;
 }
 
+const EXAMPLE_PROMPTS = [
+  "How do I stop slicing my driver?",
+  "Give me a 45-minute practice plan.",
+];
+
 export default function ChatInterface({ profile, onEditProfile }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
   const [openSources, setOpenSources] = useState<Set<number>>(new Set());
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
+
+  useEffect(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight}px`;
+  }, [input]);
 
   function toggleSources(index: number) {
     setOpenSources((prev) => {
@@ -47,8 +61,20 @@ export default function ChatInterface({ profile, onEditProfile }: ChatInterfaceP
     });
   }
 
-  async function sendMessage() {
-    const text = input.trim();
+  async function copyMessage(content: string, index: number) {
+    await navigator.clipboard.writeText(content);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  }
+
+  function scoreColor(score: number) {
+    if (score >= 0.7) return "text-green-600";
+    if (score >= 0.5) return "text-amber-500";
+    return "text-red-400";
+  }
+
+  async function sendMessage(directText?: string) {
+    const text = (directText ?? input).trim();
     if (!text || loading || isStreaming) return;
 
     const userMessage: Message = { role: "user", content: text };
@@ -190,24 +216,43 @@ export default function ChatInterface({ profile, onEditProfile }: ChatInterfaceP
           <div className="text-center text-stone-400 mt-16 text-sm space-y-2">
             <p className="text-4xl">🏌️</p>
             <p>Ask your coach anything about your game.</p>
-            <p className="text-stone-300 text-xs">
-              Try: "How do I stop slicing my driver?" or "Give me a 45-minute practice plan."
-            </p>
+            <div className="flex flex-wrap justify-center gap-2 mt-3">
+              {EXAMPLE_PROMPTS.map((q) => (
+                <button
+                  key={q}
+                  onClick={() => sendMessage(q)}
+                  className="text-xs text-stone-500 border border-stone-200 rounded-full px-3 py-1.5 hover:border-green-700 hover:text-green-800 transition-colors"
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
           </div>
         )}
 
         {messages.map((msg, i) => (
           <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-            <div className={`max-w-[85%] space-y-2`}>
-              <div
-                className={`rounded-2xl px-4 py-3 text-sm leading-relaxed ${
-                  msg.role === "user"
-                    ? "bg-green-800 text-white rounded-br-sm whitespace-pre-wrap"
-                    : "bg-white border border-stone-200 text-stone-800 rounded-bl-sm shadow-sm prose prose-sm prose-stone max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0 prose-headings:my-2"
-                }`}
-              >
-                {msg.role === "user" ? msg.content : <ReactMarkdown>{msg.content}</ReactMarkdown>}
-              </div>
+            <div className="max-w-[85%] space-y-2">
+              {msg.role === "assistant" ? (
+                <div className="relative group">
+                  <div className="rounded-2xl px-4 py-3 text-sm leading-relaxed bg-white border border-stone-200 text-stone-800 rounded-bl-sm shadow-sm prose prose-sm prose-stone max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0 prose-headings:my-2">
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  </div>
+                  {msg.content && (
+                    <button
+                      onClick={() => copyMessage(msg.content, i)}
+                      className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-xs px-1.5 py-0.5 rounded bg-stone-100 text-stone-400 hover:text-stone-600"
+                      title="Copy response"
+                    >
+                      {copiedIndex === i ? "✓" : "copy"}
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div className="rounded-2xl px-4 py-3 text-sm leading-relaxed bg-green-800 text-white rounded-br-sm whitespace-pre-wrap">
+                  {msg.content}
+                </div>
+              )}
 
               {msg.role === "assistant" && msg.retrieved && msg.retrieved.length > 0 && (
                 <div className="ml-1">
@@ -241,7 +286,7 @@ export default function ChatInterface({ profile, onEditProfile }: ChatInterfaceP
                               {topicLabel[chunk.topic] ?? chunk.topic}
                             </span>
                             <span className="text-stone-400">{chunk.content_type}</span>
-                            <span className="ml-auto text-stone-300">
+                            <span className={`ml-auto ${scoreColor(chunk.score)}`}>
                               {(chunk.score * 100).toFixed(0)}% match
                             </span>
                           </div>
@@ -263,6 +308,7 @@ export default function ChatInterface({ profile, onEditProfile }: ChatInterfaceP
                 <span className="w-2 h-2 bg-green-700 rounded-full animate-bounce [animation-delay:-0.3s]" />
                 <span className="w-2 h-2 bg-green-700 rounded-full animate-bounce [animation-delay:-0.15s]" />
                 <span className="w-2 h-2 bg-green-700 rounded-full animate-bounce" />
+                <span className="ml-2 text-xs text-stone-400">Coach is thinking...</span>
               </div>
             </div>
           </div>
@@ -275,16 +321,18 @@ export default function ChatInterface({ profile, onEditProfile }: ChatInterfaceP
       <footer className="sticky bottom-0 bg-white border-t border-stone-200 px-4 py-3">
         <div className="max-w-2xl mx-auto flex gap-2 items-end">
           <textarea
+            ref={textareaRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Ask your coach..."
             rows={1}
+            autoFocus
             className="flex-1 resize-none rounded-xl border border-stone-300 px-4 py-2.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-green-700 focus:outline-none focus:ring-1 focus:ring-green-700 max-h-32 overflow-y-auto"
             style={{ lineHeight: "1.5" }}
           />
           <button
-            onClick={sendMessage}
+            onClick={() => sendMessage()}
             disabled={loading || isStreaming || !input.trim()}
             className="rounded-xl bg-green-800 px-4 py-2.5 text-sm font-semibold text-white hover:bg-green-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
           >
